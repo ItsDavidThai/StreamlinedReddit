@@ -9,7 +9,8 @@ pids
 *.seed
 
 # api secret keys
-src/SECRETS.js
+**/SECRETS
+
 # dist
 dist
 
