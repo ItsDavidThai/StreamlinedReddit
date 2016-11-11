@@ -15,7 +15,11 @@ export class AuthService {
     // return this.http.post('https://www.reddit.com/api/v1/access_token', body).subscribe(function(res){console.log(res)})
        let params: URLSearchParams = new URLSearchParams();
        params.set('code', code)
-    return this.http.get('/services/getAccessToken', {search:params}).subscribe(function(res){console.log(res)})
+    return this.http.get('/services/getAccessToken', {search:params}).subscribe(function(res){
+      let token = JSON.parse(res._body).access_token
+      console.log(token)
+      sessionStorage.setItem("access_token",token)
+    })
   }
 
 
