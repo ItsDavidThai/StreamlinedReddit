@@ -5,7 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './services/auth/auth.service';
+import { RedditAPIService } from './services/redditAPIService/redditAPI.service'
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
@@ -20,7 +21,7 @@ import { HomeComponent } from './home/home.component';
     HttpModule,
     RouterModule.forRoot([{path:'', component: HomeComponent}])
   ],
-  providers: [AuthService],
+  providers: [AuthService, RedditAPIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
