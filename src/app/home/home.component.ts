@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscription: Subscription;
   private redditAPISubscription: Subscription;
+  private threadData: Array<Object>;
 
   constructor(private authService: AuthService,
     private route: ActivatedRoute,
@@ -30,10 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy, OnChanges {
         if(param['code']){
           console.log('authService ran ng get access token')
           this.authService.ngGetAccessToken(param['code'])
-          // // if the service variable has a token load page
-          // if(this.redditAPI.accessToken){
-          //   this.loadFrontPageFeed()
-          // }
         }
       });
     this.authService.accessToken.subscribe(function(result){
@@ -42,21 +39,26 @@ export class HomeComponent implements OnInit, OnDestroy, OnChanges {
         that.loadFrontPageFeed();
       }
     })
-
+    if(localStorage.getItem('access_token')){
+      that.loadFrontPageFeed()
+    }
 
   }
   ngOnDestroy(){
     console.log('destroy subscription')
-    sessionStorage.clear;
     this.subscription.unsubscribe();
     this.authService.accessToken.unsubscribe();
   }
   loadFrontPageFeed(){
     console.log('load front page feed ran')
+    let that = this
     this.redditAPI.fetchFrontPageJSON().subscribe(function(result){
       console.log(result, ' made it to the home component')
+      that.threadData = result.data.children
+      that.threadData.forEach(function(thread){
+        thread.data.permalink = 'https://www.reddit.com' + thread.data.permalink
+      })
     })
-    // console.log(frontPageJSON)
   }
 
 }

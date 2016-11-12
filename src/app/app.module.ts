@@ -9,11 +9,14 @@ import { AuthService } from './services/auth/auth.service';
 import { RedditAPIService } from './services/redditAPIService/redditAPI.service'
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { ThreadComponent } from './home/thread/thread.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    ThreadComponent,
+    ThreadComponent
   ],
   imports: [
     BrowserModule,

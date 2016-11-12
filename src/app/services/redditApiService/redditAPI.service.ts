@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Injectable()
 export class RedditAPIService {
 
-  accessToken: string;
   subscription: Subscription;
 
   constructor(private http: Http) {
@@ -13,7 +12,7 @@ export class RedditAPIService {
 
   fetchFrontPageJSON(){
     let headers = new Headers;
-    headers.append('Authorization','BEARER ' + this.accessToken)
+    headers.append('Authorization','BEARER ' + localStorage.getItem('access_token'))
     return this.http.get('https://oauth.reddit.com/.json', { headers: headers }).map(function(result){
       console.log(result)
        return result.json()
