@@ -1,11 +1,9 @@
 <div>
-  <a href='https://www.reddit.com/api/v1/authorize?client_id=XcmF_qHAsfrorA&state=asdflkdsfasdfl&response_type=code&redirect_uri=http://localhost:1337&duration=temporary&scope=read mysubreddits subscribe'>sign into reddit</a>
-
+  <app-top-menu></app-top-menu>
     <div class="container">
       <div *ngIf="threadData">
         <div *ngFor="let thread of threadData">
           <app-thread [commentLink]='thread.data.permalink' [threadData]='thread'></app-thread>
-
         </div>
       </div>
     </div>

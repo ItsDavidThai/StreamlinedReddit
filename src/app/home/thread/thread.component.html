@@ -1,23 +1,3 @@
-<!-- <div class="row">
-  <div class="col s12 m7">
-    <div class="card">
-      <div class="card-image">
-        <img src={{threadData.data.thumbnail}} alt="No Image">
-        <span class="card-title">{{ threadData.data.subreddit }}</span>
-      </div>
-      <div class="card-content">
-        <p>{{threadData.data.title}}</p>
-      </div>
-      <div class="card-action">
-        <a href={{threadData.data.permalink}}>{{threadData.data.num_comments}} Comments </a>
-        <a href={{threadData.data.url}}>Link</a>
-      </div>
-    </div>
-  </div>
-</div>
- -->
-
-
 <div class="col s12 m7">
   <div class="card horizontal">
     <div class="card-image">
@@ -31,6 +11,8 @@
       </div>
       <div class="card-action">
         <a href={{threadData.data.permalink}}>{{threadData.data.num_comments}} Comments </a>
+        <a href={{threadData.data.subreddit}}>r/{{threadData.data.subreddit}} </a>
+
       </div>
     </div>
   </div>

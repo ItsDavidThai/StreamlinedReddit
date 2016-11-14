@@ -1,0 +1,15 @@
+.remove {
+  float:right;
+}
+
+.remove:hover {
+  color: red;
+}
+
+.add {
+  float:right;
+}
+
+.add:hover {
+  color:green;
+}

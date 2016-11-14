@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~2.1.0",
     "@angular/platform-browser-dynamic": "~2.1.0",
     "@angular/router": "~3.1.0",
+    "angular2-infinite-scroll": "^0.2.6",
     "axios": "^0.15.2",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.15.2",
