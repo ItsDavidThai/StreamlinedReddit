@@ -10,8 +10,8 @@
         <p>{{threadData.data.title}}</p>
       </div>
       <div class="card-action">
-        <a href={{threadData.data.permalink}}>{{threadData.data.num_comments}} Comments </a>
-        <a href={{threadData.data.subreddit}}>r/{{threadData.data.subreddit}} </a>
+        <a href="{{threadData.data.permalink}}">{{threadData.data.num_comments}} Comments </a>
+        <a href="#" (click)="onSubredditClicked(threadData.data.subreddit)">{{threadData.data.subreddit}} </a>
 
       </div>
     </div>

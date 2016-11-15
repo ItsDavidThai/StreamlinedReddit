@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var authService = require('./services/authService.js')
 var axios = require('axios')
 var secrets = require('../src/SECRETS.js')
 var qs = require('qs')
@@ -21,22 +20,22 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../dist')));
 
 
-
 /*
-  routes can be factored out however due to size will stay in one file
+  routes can be factored out however due to scope will stay in one file
 */
 // route to get token
-app.get('/services/getAccessToken', function(req, res){
-  console.log(' got to route')
+app.get('/services/getAccessToken', function(req, res) {
+  // code used to request access token
   var code = req.query.code
   var data = {
     grant_type: 'authorization_code',
-    code:code,
+    code: code,
     redirect_uri: 'http://localhost:1337'
   }
+  // convert data into json format
   data = qs.stringify(data)
-  console.log(data)
-  axios.post('https://www.reddit.com/api/v1/access_token',data,
+  // send a post request to get access token
+  axios.post('https://www.reddit.com/api/v1/access_token', data,
     {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       auth: {username: secrets.client_id, password: secrets.client_secret}
@@ -49,9 +48,6 @@ app.get('/services/getAccessToken', function(req, res){
     console.log(error);
   });
 })
-
-
-
 
 
 // route all unspecified paths to home

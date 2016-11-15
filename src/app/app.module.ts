@@ -12,7 +12,9 @@ import { HomeComponent } from './home/home.component';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { ThreadComponent } from './home/thread/thread.component';
 import { TopMenuComponent } from './home/top-menu/top-menu.component';
-
+/*
+  Services, Modules, and Entry Point are declared here
+*/
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,4 +32,4 @@ import { TopMenuComponent } from './home/top-menu/top-menu.component';
   providers: [AuthService, RedditAPIService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

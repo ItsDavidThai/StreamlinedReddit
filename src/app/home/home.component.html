@@ -1,11 +1,19 @@
 <div>
-  <app-top-menu></app-top-menu>
-    <div class="container">
+  <!-- Nav Bar Component -->
+  <app-top-menu (feedChoosen)=(loadFeed($event))></app-top-menu>
+    <div class="container"
+            infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="500"
+            (scrolled)="loadNextPage()">
+      <!-- Thread Feed -->
       <div *ngIf="threadData">
         <div *ngFor="let thread of threadData">
-          <app-thread [commentLink]='thread.data.permalink' [threadData]='thread'></app-thread>
+          <app-thread (subredditChoosen)=(loadFeed($event)) [threadData]='thread'></app-thread>
         </div>
       </div>
+      <div *ngIf="!threadData">
+        <div>Please Sign Into Reddit</div>
+      </div>
     </div>
-
 </div>
