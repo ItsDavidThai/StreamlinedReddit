@@ -17,14 +17,13 @@ import { BehaviorSubject } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   // oberservable to check initial url redirect for auth code
   private subscription: Subscription;
-  // private subscribeOrUnsubscribeClicked = false;
-  // private threadDataFromHomeService;
   // array to hold threads/posts
   public threadData: Array<Object>;
   // next page variable
   public after: String;
   // keep track of which feed the user is currently on
   public currentFeed: String;
+  // used to turn on/off please login div
   public loggedIn: Boolean;
   /*
     Service injection declarations
@@ -63,17 +62,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       that.loggedIn = false;
     }
+    // when oberservable homeService is triggered reload the feed
+    // this connected to when a user subscribes/unsubscribes from a subreddit
     this.homeService.frontPageThreadDataUpdated.subscribe(function(result) {
-      console.log('feedupdated', result)
-      // if(that.subscribeOrUnsubscribeClicked) {
-      //   console.log('load feed is going to run now after')
-      //   that.subscribeOrUnsubscribeClicked = false
-      // }
-
         that.loadFeed()
-
     })
-
   }
   // when component is destroyed remove subscriptions
   ngOnDestroy() {
@@ -87,7 +80,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if no name is given will default to front page
   */
   loadFeed(name = "") {
-    console.log(name)
     // save this context
     let that = this
     // use redditAPI service to grab the feed data
@@ -127,9 +119,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       that.threadData = that.threadData.concat(result.data.children)
     })
   }
-
+  /*
+    function to reload feed when nav bar items are clicked on or
+    when subreddits are clicked
+   */
   reloadFeed($event) {
-    console.log($event)
     this.loadFeed($event)
   }
 }

@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 */
 @Injectable()
 export class HomeService {
-
+  // observable for components to listen when the front page thread is updated
   public frontPageThreadDataUpdated = new BehaviorSubject(null);
 
   constructor() {}

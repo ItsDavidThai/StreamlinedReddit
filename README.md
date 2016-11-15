@@ -7,7 +7,7 @@
 4. To start application, after dependencies are installed type "npm run dev"
 5. go to localhost:1337
 6. page will intially be blank until signed in
-7. dummy account for you usage username: accountforcodings, password: in SECRETS.js
+7. dummy account for you usage username: testaccountforcoding, password: in SECRETS.js
 
 --- Features ---
 Infinite Scroll,
