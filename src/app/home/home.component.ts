@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.accessToken.subscribe(function(result) {
       if(result) {
         that.loadFeed();
+        that.loggedIn = true
       }
     })
     // if the user refreshes the page but does not log back in
