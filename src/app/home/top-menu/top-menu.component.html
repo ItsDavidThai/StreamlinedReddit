@@ -4,7 +4,12 @@
     <!-- fixed navigation bar Web Version -->
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper"> <a href="localhost:1337" class="brand-logo center">CC</a>
+            <div class="nav-wrapper">
+              <a (click)="onFeedClicked('')"
+              href="localhost:1337"
+              class="brand-logo center">
+                CC
+              </a>
                 <a  data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="left hide-on-med-and-down">
                   <li>  <a href='https://www.reddit.com/api/v1/authorize?client_id=XcmF_qHAsfrorA&state=asdflkdsfasdfl&response_type=code&redirect_uri=http://localhost:1337&duration=temporary&scope=read mysubreddits subscribe'>sign into reddit</a></li>
@@ -28,46 +33,58 @@
 
     <!--  popular subreddits dropdown items for mobile version -->
     <ul id="mobile-dropdown" class="dropdown-content" >
-      <li>Click + to add!</li>
+      <li>Click + to subscribe!</li>
       <li *ngFor="let subreddit of popularSubreddits; let i = index">
         <div (click)="onFeedClicked(subreddit.data.url)">
           {{ subreddit.data.url }}
-          <div [attr.data]="subreddit.data.name" (click)="subscribe(subreddit.data.name, i)" class="add">
-          +
+          <div [attr.data]="subreddit.data.name"
+          (click)="subscribe(subreddit.data.name, i, subreddit)"
+          (click)="onFeedClicked('')" class="add">
+            +
           </div>
         </div>
       </li>
     </ul>
     <!--  popular subreddits dropdown items for web version -->
     <ul id="web-dropdown" class="dropdown-content" >
-      <li>Click + to add!</li>
+      <li>Click + to subscribe!</li>
       <li *ngFor="let subreddit of popularSubreddits; let i = index">
         <div (click)="onFeedClicked(subreddit.data.url)">
           {{ subreddit.data.url }}
         </div>
-        <div [attr.data]="subreddit.data.name" (click)="subscribe(subreddit.data.name, i)" class="add">
-         +
+        <div [attr.data]="subreddit.data.name"
+        (click)="subscribe(subreddit.data.name, i, subreddit)"
+        (click)="onFeedClicked('')" class="add">
+          +
         </div>
       </li>
     </ul>
     <!--  user's subreddits dropdown items for mobile version -->
     <ul id="mobile-dropdown-usersubs" class="dropdown-content" >
-      <li>Click - to remove!</li>
+      <li>Click &mdash; to unsubscribe!</li>
       <li *ngFor="let subreddit of userSubreddits; let i = index">
         <div (click)="onFeedClicked(subreddit.data.url)">
           {{ subreddit.data.url }}
-          <div [attr.data]="subreddit.data.name" (click)="unsubscribe(subreddit.data.name, i)" class="remove">  &mdash;
+          <div [attr.data]="subreddit.data.name"
+          (click)="unsubscribe(subreddit.data.name, i)"
+          (click)="onFeedClicked('')"
+          class="remove" >
+            &mdash;
           </div>
         </div>
       </li>
     </ul>
     <!--  users's subreddits dropdown items for web version -->
     <ul id="web-dropdown-usersubs" class="dropdown-content" >
-      <li>Click - to remove!</li>
+      <li>Click &mdash; to unsubscribe!</li>
       <li *ngFor="let subreddit of userSubreddits; let i = index">
         <div (click)="onFeedClicked(subreddit.data.url)">
           {{ subreddit.data.url }}
-          <div [attr.data]="subreddit.data.name" (click)="unsubscribe(subreddit.data.name, i)" class="remove">  &mdash;
+          <div [attr.data]="subreddit.data.name"
+          (click)="unsubscribe(subreddit.data.name, i)"
+          (click)="onFeedClicked('')"
+          class="remove">
+            &mdash;
           </div>
         </div>
       </li>

@@ -1,6 +1,6 @@
 <div>
   <!-- Nav Bar Component -->
-  <app-top-menu (feedChoosen)=(loadFeed($event))></app-top-menu>
+  <app-top-menu (feedChoosen)=(reloadFeed($event))></app-top-menu>
     <div class="container"
             infinite-scroll
             [infiniteScrollDistance]="2"
@@ -12,7 +12,7 @@
           <app-thread (subredditChoosen)=(loadFeed($event)) [threadData]='thread'></app-thread>
         </div>
       </div>
-      <div *ngIf="!threadData">
+      <div *ngIf="!loggedIn">
         <div>Please Sign Into Reddit</div>
       </div>
     </div>

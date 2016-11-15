@@ -2,7 +2,7 @@
   <div class="card horizontal">
     <div class="card-image">
         <a href={{threadData.data.url}}>
-          <img src={{threadData.data.thumbnail}} alt="Link">
+          <img src={{threadData.data.thumbnail}} alt="External Link">
         </a>
     </div>
     <div class="card-stacked">
@@ -10,7 +10,7 @@
         <p>{{threadData.data.title}}</p>
       </div>
       <div class="card-action">
-        <a href="{{threadData.data.permalink}}">{{threadData.data.num_comments}} Comments </a>
+        <a href="{{threadData.data.permalink}}"> {{threadData.data.num_comments}} Comments </a>
         <a href="#" (click)="onSubredditClicked(threadData.data.subreddit)">{{threadData.data.subreddit}} </a>
 
       </div>

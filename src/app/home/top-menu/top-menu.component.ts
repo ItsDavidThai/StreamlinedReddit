@@ -15,12 +15,12 @@ declare var $: any;
 })
 export class TopMenuComponent implements OnInit, AfterViewInit {
   // array to hold popular subreddits
-  popularSubreddits;
+  private popularSubreddits;
   // array to hold user subreddits
-  userSubreddits;
+  private userSubreddits;
   // allows children -> parent interactions. When this event triggers it notifies the parent component
   @Output() feedChoosen: EventEmitter<string> = new EventEmitter<string>()
-
+  // temporary variable to hold added subreddit name
   constructor(private redditAPI: RedditAPIService,
               private authService: AuthService) {}
   /*
@@ -37,6 +37,11 @@ export class TopMenuComponent implements OnInit, AfterViewInit {
         that.populatePopularUserSubredditsDropDown();
       }
     })
+    // populate dropdowns after accessToken is set
+    if(localStorage.getItem('access_token')){
+      that.populatePopularUserSubredditsDropDown();
+      that.populatePopularSubredditDropDown();
+    }
   }
   /*
     when the view initializes
@@ -62,7 +67,7 @@ export class TopMenuComponent implements OnInit, AfterViewInit {
   /*
     this function calls redditAPI service to subscribe to a subreddit
   */
-  subscribe(sr, index) {
+  subscribe(sr, index, object) {
     // maintain this context
     let that = this;
     // is user already subscribed to subreddit
@@ -77,8 +82,9 @@ export class TopMenuComponent implements OnInit, AfterViewInit {
     // if user is not subscribed to subreddit call reddit api to add subreddit
     // if not then alert the user it has been added
     if(!found){
+      // update userSubreddit dropdown when adding subreddit
+      this.userSubreddits.push(object)
       this.redditAPI.subscribeToSubreddit(sr).subscribe(function(result) {
-        console.log('subscribed');
       })
     } else {
       window.alert('already subscribed to subreddit');

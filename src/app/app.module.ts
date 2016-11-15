@@ -9,6 +9,7 @@ import { AuthService } from './services/auth/auth.service';
 import { RedditAPIService } from './services/redditAPIService/redditAPI.service'
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { HomeService } from './home/home.service';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { ThreadComponent } from './home/thread/thread.component';
 import { TopMenuComponent } from './home/top-menu/top-menu.component';
@@ -29,7 +30,7 @@ import { TopMenuComponent } from './home/top-menu/top-menu.component';
     RouterModule.forRoot([{path:'', component: HomeComponent}]),
     InfiniteScrollModule
   ],
-  providers: [AuthService, RedditAPIService],
+  providers: [AuthService, RedditAPIService, HomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

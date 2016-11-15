@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
+import { HomeService } from './home.service'
 import { RedditAPIService } from '../services/redditAPIService/redditAPI.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
 /*
   This is main component that holds the nav bar and thread feed
 */
@@ -14,19 +17,22 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   // oberservable to check initial url redirect for auth code
   private subscription: Subscription;
+  // private subscribeOrUnsubscribeClicked = false;
+  // private threadDataFromHomeService;
   // array to hold threads/posts
-  private threadData: Array<Object>;
+  public threadData: Array<Object>;
   // next page variable
-  private after: String;
+  public after: String;
   // keep track of which feed the user is currently on
-  private currentFeed: String;
-
+  public currentFeed: String;
+  public loggedIn: Boolean;
   /*
     Service injection declarations
   */
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
-              private redditAPI: RedditAPIService) {}
+              private redditAPI: RedditAPIService,
+              private homeService: HomeService) {}
   /*
     ngOnInit and ngOnDestroy are component lifecycle hooks
     ngOnInit runs when the component loads
@@ -53,13 +59,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     // if there is load the front page
     if(localStorage.getItem('access_token')) {
       that.loadFeed()
+      that.loggedIn = true
+    } else {
+      that.loggedIn = false;
     }
+    this.homeService.frontPageThreadDataUpdated.subscribe(function(result) {
+      console.log('feedupdated', result)
+      // if(that.subscribeOrUnsubscribeClicked) {
+      //   console.log('load feed is going to run now after')
+      //   that.subscribeOrUnsubscribeClicked = false
+      // }
+
+        that.loadFeed()
+
+    })
 
   }
-  // when component is destroyed remove subscriptions to prevent memory leaks
+  // when component is destroyed remove subscriptions
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.authService.accessToken.unsubscribe();
+    this.homeService.frontPageThreadDataUpdated.unsubscribe();
   }
   /*
     will populate the page with a different feed
@@ -67,6 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if no name is given will default to front page
   */
   loadFeed(name = "") {
+    console.log(name)
     // save this context
     let that = this
     // use redditAPI service to grab the feed data
@@ -78,11 +99,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       // keep track of current feed
       that.currentFeed = name;
       // go through each item in threadData
-      that.threadData.forEach(function(thread) {
+      that.threadData.forEach(function(thread: any) {
         // set the comment link and the subreddit link to be used by child components
         thread.data.permalink = 'https://www.reddit.com' + thread.data.permalink
         thread.data.subreddit = 'r/' + thread.data.subreddit
       })
+        console.log(that.threadData)
     })
   }
   /*
@@ -92,11 +114,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     // save this context
     let that = this
     // this.currentFeed and this.after are saved when the feeds are loaded
-    this.redditAPI.fetchNextPage(this.currentFeed, this.after).subscribe(function(result){
+    this.redditAPI.fetchNextPage(that.currentFeed, that.after).subscribe(function(result){
       // set new after
       that.after = result.data.after
       // go through each item in threadData
-      result.data.children.forEach(function(thread){
+      result.data.children.forEach(function(thread) {
         // set the comment link and the subreddit link to be used by child components
         thread.data.permalink = 'https://www.reddit.com' + thread.data.permalink
         thread.data.subreddit = 'r/' + thread.data.subreddit
@@ -106,4 +128,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     })
   }
 
+  reloadFeed($event) {
+    console.log($event)
+    this.loadFeed($event)
+  }
 }

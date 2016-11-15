@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, URLSearchParams, Headers, RequestOptions } from '@angular/http'
+import { HomeService } from '../../home/home.service'
 import { Subscription } from 'rxjs';
 /*
   Services acts as a singleton with methods and properties that can be injected into other components.
@@ -13,13 +14,19 @@ export class RedditAPIService {
   /*
     services and modules are injected in the constructor
   */
-  constructor(private http: Http) {}
-
+  constructor(private http: Http, private homeService: HomeService) {}
+  /*
+    function is used for all feeds hot/new/frontpage/subreddits
+    sends a get request to the reddit api requesting feed data
+  */
   fetchFeedJSON(name) {
+    // set headers
     let headers = new Headers;
     let params: URLSearchParams = new URLSearchParams();
     headers.append('Authorization', 'BEARER ' + localStorage.getItem('access_token'))
+    // set search queries
     params.set('limit', "100")
+    // get request to api server
     return this.http.get(`https://oauth.reddit.com/${name}/.json`, { headers: headers, search:params }).map(function(result){
       console.log(result)
        return result.json()
@@ -38,6 +45,7 @@ export class RedditAPIService {
     let params: URLSearchParams = new URLSearchParams();
     params.set('limit', "100")
     params.set('after', after)
+    // if no name is given default to front page
     name = name || ""
     // Http Get Request
     return this.http.get(`https://oauth.reddit.com/${name}/.json`, { headers: headers, search:params }).map(function(result){
@@ -50,6 +58,7 @@ export class RedditAPIService {
     sr - subreddit code
   */
   subscribeToSubreddit(sr) {
+    let that = this
     // set post headers
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     headers.append('Authorization', 'BEARER ' + localStorage.getItem('access_token'));
@@ -59,6 +68,7 @@ export class RedditAPIService {
     // Http post request to reddit api
     return this.http.post('https://oauth.reddit.com/api/subscribe/', body, options).map(function(result){
        console.log(result);
+       that.homeService.frontPageThreadDataUpdated.next(null)
     })
   }
   /*
@@ -66,6 +76,7 @@ export class RedditAPIService {
     sr - subreddit code
   */
   unsubscribeFromSubreddit(sr){
+    let that = this
     // set post headers
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
     headers.append('Authorization', 'BEARER ' + localStorage.getItem('access_token'))
@@ -74,6 +85,7 @@ export class RedditAPIService {
     let body = `sr=${sr}&action=unsub`;
     // Http post request to reddit api
     return this.http.post('https://oauth.reddit.com/api/subscribe/', body, options).map(function(result){
+      that.homeService.frontPageThreadDataUpdated.next(null)
        console.log(result);
     })
   }
