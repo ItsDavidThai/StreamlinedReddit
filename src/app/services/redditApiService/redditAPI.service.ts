@@ -64,7 +64,7 @@ export class RedditAPIService {
     headers.append('Authorization', 'BEARER ' + localStorage.getItem('access_token'));
     let options = new RequestOptions({ headers: headers });
     //set body params
-    let body = `sr=${sr}&action=sub`;
+    let body = `sr=${sr}&action=sub&skip_initial_defaults=false`;
     // Http post request to reddit api
     return this.http.post('https://oauth.reddit.com/api/subscribe/', body, options).map(function(result){
        console.log(result);
