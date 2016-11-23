@@ -1,4 +1,4 @@
-# ww-cc
+# StreamlinedReddit
 
 MAC OSX
 --- Steps to get app running ----
